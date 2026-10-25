@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d0a19">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -25,7 +25,7 @@
 /* Das Design ist bewusst dunkel – die Tokens gelten in beiden Modi. */
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ color-scheme:dark; } }
 :root[data-theme="dark"]{ color-scheme:dark; }
-html{ scroll-padding-top:env(safe-area-inset-top,0px); -webkit-text-size-adjust:100%; }
+html{ scroll-padding-top:env(safe-area-inset-top,0px); -webkit-text-size-adjust:100%; touch-action:manipulation; }
 *,*::before,*::after{ box-sizing:inherit; }
 body{ margin:0; min-height:100%; background:var(--bg); color:var(--ink); font-family:var(--font); font-size:15px; line-height:1.45; -webkit-font-smoothing:antialiased; }
 body::before{ content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:30; background:rgba(13,10,25,.75); -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px); }
@@ -266,7 +266,7 @@ main{ padding:6px 16px 118px; }
 .ord button:disabled{ opacity:.22; }
 
 /* Tab-Leiste (schwebendes Glas) */
-.tabwrap{ position:fixed; left:0; right:0; bottom:calc(14px + env(safe-area-inset-bottom,0px)); z-index:20; display:flex; justify-content:center; padding:0 16px; pointer-events:none; }
+.tabwrap{ position:fixed; left:0; right:0; bottom:max(12px, env(safe-area-inset-bottom,0px)); z-index:20; display:flex; justify-content:center; padding:0 16px; pointer-events:none; }
 .tabbar{ pointer-events:auto; width:100%; max-width:488px; display:flex; padding:6px; border-radius:999px; border:1px solid var(--stroke2); background:rgba(22,16,42,.62); -webkit-backdrop-filter:blur(26px) saturate(160%); backdrop-filter:blur(26px) saturate(160%); box-shadow:inset 0 1px 0 rgba(255,255,255,.15), 0 20px 40px -14px rgba(0,0,0,.8); }
 .tabbar button{ flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 0 7px; min-width:0; font-size:11px; border-radius:999px; color:var(--dim); font-weight:600; font-size:11.5px; transition:background .2s ease,color .2s ease; }
 .tabbar button svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
@@ -1052,7 +1052,7 @@ function showScreen(name){
   ui.screen=name;
   ['home','cal','stats','ana','habits'].forEach(n=>{ $('#s-'+n).hidden=n!==name; });
   document.querySelectorAll('.tabbar button').forEach(b=>b.classList.toggle('on',b.dataset.nav===name));
-  closeDetail(); try{ window.scrollTo({top:0}); }catch(e){}
+  closeDetail(); try{ window.scrollTo(0,0); }catch(e){}
 }
 /* Sterne im Hintergrund – fest verteilt, damit sie bei jedem Öffnen gleich stehen */
 (function(){ const a=$('.aurora'); let seed=7; const rnd=()=>{ seed=(seed*9301+49297)%233280; return seed/233280; }; for(let i=0;i<26;i++){ const s=document.createElement('span'); s.className='star'; s.style.left=(rnd()*100).toFixed(1)+'%'; s.style.top=(rnd()*100).toFixed(1)+'%'; s.style.opacity=(.15+rnd()*.35).toFixed(2); s.style.transform='scale('+(.6+rnd()).toFixed(2)+')'; a.appendChild(s); } })();
